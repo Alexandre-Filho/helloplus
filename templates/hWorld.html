@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang= "en">
+<head>
+    <meta charset= "UTF-8">
+    <title>HELLO WORLD</title>
+    <link rel= "stylesheet" href="{{ url_for('static', filename= 'style.css')}}">
+</head>
+<body>
+    <input type="number" id ="quantity" placeholder="Ex: 5">
+    <button id="button">RUN</button>
+    <div id="terminal"></div>
+    <script>
+            document.getElementById('button').addEventListener('click', function() {
+                const number = parseInt(document.getElementById('quantity').value);
+                fetch('/hello', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({number: number})
+                })
+                .then(response => response.json())
+                .then(lines => {
+                    document.getElementById('terminal').innerHTML =
+                        lines.map(l => `<p>${l}</p>`).join('');
+                });
+            });
+    </script>
+</body>
+</html>
